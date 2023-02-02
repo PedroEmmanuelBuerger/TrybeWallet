@@ -4,9 +4,9 @@ export const actionUser = (user) => ({
   user,
 });
 
-export const actionWallet = (wallet) => ({
-  type: 'WALLET',
-  wallet,
+export const actionWallet = (currencies) => ({
+  type: 'currencies',
+  currencies,
 });
 
 export function actionWalletApi() {
@@ -15,4 +15,17 @@ export function actionWalletApi() {
     .then((response) => response.json())
     .then((prices) => dispatch(actionWallet({ currencies:
        Object.keys(prices).filter((currency) => currency !== 'USDT') })));
+}
+
+const Addexpense = (expenses) => ({
+  type: 'ADD_EXPENSE',
+  expenses,
+});
+
+export function AddexpenseApi(obj) {
+  const api = 'https://economia.awesomeapi.com.br/json/all';
+  return (dispatch) => fetch(api)
+    .then((response) => response.json())
+    .then((prices) => dispatch(Addexpense([{ ...obj,
+      exchangeRates: prices }])));
 }

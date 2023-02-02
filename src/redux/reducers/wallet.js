@@ -7,16 +7,19 @@ const INITIAL_STATE = {
   idToEdit: 0,
 };
 
-const wallet = (state = INITIAL_STATE, action) => {
+export const wallet = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-  case 'WALLET':
+  case 'currencies':
     return {
       ...state,
-      ...action.wallet,
+      ...action.currencies,
+    };
+  case 'ADD_EXPENSE':
+    return {
+      ...state,
+      expenses: [...state.expenses, ...action.expenses],
     };
   default:
     return state;
   }
 };
-
-export default wallet;
