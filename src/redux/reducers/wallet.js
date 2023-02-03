@@ -24,7 +24,7 @@ export const wallet = (state = INITIAL_STATE, action) => {
       ...state,
       expenses: [...state.expenses.filter((expense) => expense.id
          !== action.expenses[0].id),
-      ...action.expenses],
+      ...action.expenses].sort((a, b) => a.id - b.id),
       editor: false,
       idToEdit: 0,
     };
