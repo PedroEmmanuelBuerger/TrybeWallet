@@ -29,3 +29,8 @@ export function AddexpenseApi(obj) {
     .then((prices) => dispatch(Addexpense([{ ...obj,
       exchangeRates: prices }])));
 }
+
+export const deleteExpense = (id) => ({
+  type: 'DELETE_EXPENSE',
+  id: Number(id),
+});

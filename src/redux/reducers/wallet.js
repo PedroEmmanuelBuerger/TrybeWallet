@@ -9,6 +9,11 @@ const INITIAL_STATE = {
 
 export const wallet = (state = INITIAL_STATE, action) => {
   switch (action.type) {
+  case 'DELETE_EXPENSE':
+    return {
+      ...state,
+      expenses: state.expenses.filter((expense) => expense.id !== action.id),
+    };
   case 'currencies':
     return {
       ...state,
