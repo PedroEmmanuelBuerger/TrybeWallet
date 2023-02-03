@@ -34,3 +34,8 @@ export const deleteExpense = (id) => ({
   type: 'DELETE_EXPENSE',
   id: Number(id),
 });
+
+export const editExpense = (id) => ({
+  type: 'EDIT_EXPENSE',
+  id: Number(id),
+});

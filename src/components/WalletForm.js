@@ -42,9 +42,28 @@ class WalletForm extends Component {
     dispatch(AddexpenseApi(expenseObj));
   };
 
+  editExpense = () => {
+    const { idToEdit, dispatch } = this.props;
+    const { value, description, currency, method, tag } = this.state;
+    const expenseObj = {
+      id: idToEdit,
+      value,
+      description,
+      currency,
+      method,
+      tag,
+      exchangeRates: {},
+    };
+    this.setState(() => ({
+      value: '',
+      description: '',
+    }));
+    dispatch(AddexpenseApi(expenseObj));
+  };
+
   render() {
     const { value, description } = this.state;
-    const { currencies } = this.props;
+    const { currencies, editor } = this.props;
     return (
       <form>
         <label htmlFor="value">
@@ -112,7 +131,15 @@ class WalletForm extends Component {
             <option value="Saúde">Saúde</option>
           </select>
         </label>
-        <button type="button" onClick={ this.saveExpense }>Adicionar despesa</button>
+        {editor ? (
+          <button
+            type="button"
+            onClick={ this.editExpense }
+          >
+            Editar despesa
+          </button>
+        )
+          : <button type="button" onClick={ this.saveExpense }>Adicionar despesa</button>}
       </form>
     );
   }
@@ -120,11 +147,15 @@ class WalletForm extends Component {
 
 const mapStateToProps = (state) => ({
   currencies: state.wallet.currencies,
+  editor: state.wallet.editor,
+  idToEdit: state.wallet.idToEdit,
 });
 
 WalletForm.propTypes = {
   currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
   dispatch: PropTypes.func.isRequired,
+  editor: PropTypes.bool.isRequired,
+  idToEdit: PropTypes.number.isRequired,
 };
 
 export default connect(mapStateToProps)(WalletForm);

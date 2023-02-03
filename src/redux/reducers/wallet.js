@@ -22,7 +22,17 @@ export const wallet = (state = INITIAL_STATE, action) => {
   case 'ADD_EXPENSE':
     return {
       ...state,
-      expenses: [...state.expenses, ...action.expenses],
+      expenses: [...state.expenses.filter((expense) => expense.id
+         !== action.expenses[0].id),
+      ...action.expenses],
+      editor: false,
+      idToEdit: 0,
+    };
+  case 'EDIT_EXPENSE':
+    return {
+      ...state,
+      editor: true,
+      idToEdit: action.id,
     };
   default:
     return state;

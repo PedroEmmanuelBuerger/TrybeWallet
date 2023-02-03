@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { deleteExpense } from '../redux/actions';
+import { deleteExpense, editExpense } from '../redux/actions';
 
 class Table extends Component {
   deleteExpense(id) {
@@ -9,8 +9,14 @@ class Table extends Component {
     dispatch(deleteExpense(id));
   }
 
+  editExpense(id) {
+    const { dispatch } = this.props;
+    dispatch(editExpense(id));
+  }
+
   render() {
     const { expenses } = this.props;
+    const expensesinOrder = expenses.sort((a, b) => b.id - a.id);
     return (
       <table className="table">
         <thead>
@@ -27,7 +33,7 @@ class Table extends Component {
           </tr>
         </thead>
         <tbody>
-          {expenses.map((expense) => (
+          {expensesinOrder.map((expense) => (
             <tr key={ expense.id }>
               <td>{expense.description}</td>
               <td>{expense.tag}</td>
@@ -44,7 +50,7 @@ class Table extends Component {
                   type="button"
                   data-testid="edit-btn"
                   id={ expense.id }
-                  onClick={ (e) => console.log(e.target) }
+                  onClick={ (e) => this.editExpense(e.target.id) }
                 >
                   Editar
                 </button>
