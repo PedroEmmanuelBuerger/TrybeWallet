@@ -8,6 +8,7 @@ class Header extends Component {
     const { email, expenses } = this.props;
     const total = expenses.map((obj) => {
       const { value, currency, exchangeRates } = obj;
+      console.log(exchangeRates[currency].ask);
       const rate = exchangeRates[currency].ask;
       return value * rate;
     });

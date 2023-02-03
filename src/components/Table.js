@@ -16,7 +16,7 @@ class Table extends Component {
 
   render() {
     const { expenses } = this.props;
-    const expensesinOrder = expenses.sort((a, b) => b.id - a.id);
+
     return (
       <table className="table">
         <thead>
@@ -33,7 +33,7 @@ class Table extends Component {
           </tr>
         </thead>
         <tbody>
-          {expensesinOrder.map((expense) => (
+          {expenses.map((expense) => (
             <tr key={ expense.id }>
               <td>{expense.description}</td>
               <td>{expense.tag}</td>
