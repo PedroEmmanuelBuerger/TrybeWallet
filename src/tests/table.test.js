@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { renderWithRouterAndRedux } from './helpers/renderWith';
 import Wallet from '../pages/Wallet';
 import mockData from './helpers/mockData';
+import App from '../App';
 
 const email = 'sombraios@hotmail.com';
 const currencies = Object.keys(mockData);
@@ -126,5 +127,16 @@ describe('testa as funcionalidades do table', () => {
     userEvent.click(deletebutton[0]);
     const newrows = screen.getAllByRole('row');
     expect(newrows).toHaveLength(2);
+  });
+  it('verifica se é possivel editar valores', async () => {
+    renderWithRouterAndRedux(<App />, { initialState, initialEntries });
+    const editbutton = await screen.findByRole('button', { name: /editar/i });
+    userEvent.click(editbutton);
+    const descriptinput = screen.getByRole('textbox', { name: /descrição/i });
+    const editbuttonsave = screen.getByRole('button', { name: /editar despesa/i });
+    userEvent.type(descriptinput, 'editado');
+    userEvent.click(editbuttonsave);
+    const newdescript = await screen.findByRole('cell', { name: /editado/i });
+    expect(newdescript).toBeInTheDocument();
   });
 });

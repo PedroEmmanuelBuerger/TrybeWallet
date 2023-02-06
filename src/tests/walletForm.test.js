@@ -116,4 +116,22 @@ describe('teste as funcionalidades de walletForm', () => {
       expect(tagInput).toHaveValue(tags[i]);
     }
   });
+  it('verifica se ao adicionar uma despesa ela é renderizada na tabela', async () => {
+    renderWithRouterAndRedux(<Wallet />, { initialEntries, initialState });
+    const valueinput = screen.getByTestId(valueinputstring);
+    const descriptioninput = screen.getByTestId(descriptioninputstring);
+    userEvent.type(valueinput, '10');
+    userEvent.type(descriptioninput, 'teste');
+    const addbutton = screen.getByRole('button', { name: /Adicionar despesa/i });
+    userEvent.click(addbutton);
+    const newvalue = await screen.findByText('10.00');
+    const newdescription = await screen.findByText('teste');
+    expect(newvalue).toBeInTheDocument();
+    expect(newdescription).toBeInTheDocument();
+  });
+  it('verifica se USDT não é renderizado', () => {
+    renderWithRouterAndRedux(<Wallet />, { initialEntries, initialState });
+    const currencyinput = screen.getByTestId(currencyinputstring);
+    expect(currencyinput).not.toHaveValue('USDT');
+  });
 });
